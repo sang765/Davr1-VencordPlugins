@@ -158,10 +158,10 @@ const searchOperators: CustomFilters = {
 
 export default definePlugin({
     name: "MoreSearchOperators",
-    description: ":3",
+    description: "Adds experimental search operators.",
     authors: [{
         id: 457579346282938368n,
-        name: "Adds experimental search operators.",
+        name: "Davri",
     }],
 
     patches: [{
