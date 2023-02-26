@@ -24,6 +24,7 @@ interface SearchFilter {
     key: string;
     validator: (match: any) => boolean;
     getAutocompletions: (match: any) => { text: string; }[];
+    _title: string;
 }
 
 interface AnswerFilter {
@@ -46,7 +47,8 @@ const searchOperators: CustomFilters = {
         regex: /sortOrder:/i,
         key: "sortOrder:",
         validator: () => true,
-        getAutocompletions: () => [{ text: "descending" }, { text: "ascending" }]
+        getAutocompletions: () => [{ text: "descending" }, { text: "ascending" }],
+        _title: "Sort order"
     },
     ANSWER_SORT_ORDER: {
         componentType: "ANSWER",
@@ -74,7 +76,8 @@ const searchOperators: CustomFilters = {
         regex: /sortBy:/i,
         key: "sortBy:",
         validator: () => true,
-        getAutocompletions: () => [{ text: "relevance" }, { text: "timestamp" }]
+        getAutocompletions: () => [{ text: "relevance" }, { text: "timestamp" }],
+        _title: "Sort by"
     },
     ANSWER_SORT_BY: {
         componentType: "ANSWER",
@@ -102,7 +105,8 @@ const searchOperators: CustomFilters = {
         regex: /embedType:/i,
         key: "embedType:",
         validator: () => true,
-        getAutocompletions: () => [{ text: "gifv" }, { text: "gif" }]
+        getAutocompletions: () => [{ text: "gifv" }, { text: "gif" }],
+        _title: "Embed type"
     },
     ANSWER_EMBED_TYPE: {
         componentType: "ANSWER",
@@ -121,7 +125,8 @@ const searchOperators: CustomFilters = {
         regex: /fileName:/i,
         key: "fileName",
         validator: () => true,
-        getAutocompletions: () => []
+        getAutocompletions: () => [],
+        _title: "File name"
     },
     ANSWER_FILE_NAME: {
         componentType: "ANSWER",
@@ -140,7 +145,8 @@ const searchOperators: CustomFilters = {
         regex: /fileType:/i,
         key: "fileType",
         validator: () => true,
-        getAutocompletions: () => [{ text: "png" }, { text: "jpg" }, { text: "webp" }, { text: "gif" }, { text: "mp4" }, { text: "txt" }, { text: "js" }, { text: "css" }, { text: "zip" }]
+        getAutocompletions: () => [{ text: "png" }, { text: "jpg" }, { text: "webp" }, { text: "gif" }, { text: "mp4" }, { text: "txt" }, { text: "js" }, { text: "css" }, { text: "zip" }],
+        _title: "File type"
     },
     ANSWER_FILE_TYPE: {
         componentType: "ANSWER",
@@ -175,6 +181,13 @@ export default definePlugin({
         replacement: {
             match: /var .=.\[.\];switch\(.\)\{/,
             replace: "$&" + Object.entries(searchOperators).filter(([_, v]) => v.componentType === "ANSWER").map(([k, v]) => `case "${k}":a.add(e.getData("${v['_dataKey']}"));break;`).join("")
+        }
+    },
+    {
+        find: "Messages.SEARCH_GROUP_HEADER",
+        replacement: {
+            match: /(.{2})\((.{2}),.\..{3}\.FILTER_HAS,\{titleText:function\(\)\{return .\..\.Messages.SEARCH_GROUP_HEADER_HAS\}\}\)/,
+            replace: Object.entries(searchOperators).filter(([_, v]) => v.componentType === "FILTER").map(([k, v]) => `$1($2,\"${k}\",{titleText:()=>\"${v['_title']}\"}),`).join("") + "$&"
         }
     }],
 
