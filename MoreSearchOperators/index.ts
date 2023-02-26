@@ -38,7 +38,7 @@ interface SearchAnswer {
     _dataKey: string | number;
 }
 
-const searchOperators: {[name: string]: SearchFilter} = {
+const searchOperators: { [name: string]: SearchFilter; } = {
     FILTER_SORT_ORDER: {
         componentType: "FILTER",
         regex: /sortOrder:/i,
@@ -62,7 +62,7 @@ const searchOperators: {[name: string]: SearchFilter} = {
         regex: /embedType:/i,
         key: "embedType:",
         validator: () => true,
-        getAutocompletions: () => [{ text: "gifv" }, { text: "gif" }],
+        getAutocompletions: () => [{ text: "image" }, { text: "video" }, { text: "gifv" }, { text: "article" }],
         _title: "Embed type",
         _options: "type"
     },
@@ -86,7 +86,7 @@ const searchOperators: {[name: string]: SearchFilter} = {
     },
 };
 
-const searchAnswers: {[name: string]: SearchAnswer} = {
+const searchAnswers: { [name: string]: SearchAnswer; } = {
     ANSWER_SORT_ORDER: {
         componentType: "ANSWER",
         regex: /\s*(asc|desc)(?:ending)?/i,
@@ -107,7 +107,7 @@ const searchAnswers: {[name: string]: SearchAnswer} = {
         queryKey: "sort_order",
         mutable: true,
         _dataKey: "sortOrder"
-    }, 
+    },
     ANSWER_SORT_BY: {
         componentType: "ANSWER",
         regex: /\s*(relevance|timestamp)/i,
@@ -165,7 +165,7 @@ const searchAnswers: {[name: string]: SearchAnswer} = {
         mutable: true,
         _dataKey: "embedType"
     },
-}
+};
 
 export default definePlugin({
     name: "MoreSearchOperators",
