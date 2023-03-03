@@ -18,7 +18,7 @@ dismissables.resetDismissable = function(ID: string | number) {
 };
 
 dismissables.resetAllDismissables = function() {
-    dismissables.userSettingsStore.settings.userContent.dismissedContents = new Uint8Array(Object.keys(dismissables.enum).length/2|0);
+    dismissables.userSettingsStore.settings.userContent.dismissedContents = new Uint8Array(Math.ceil(Object.keys(dismissables.enum).length/16));
 };
 
 dismissables.timeouts = [3e5, 18e5];
