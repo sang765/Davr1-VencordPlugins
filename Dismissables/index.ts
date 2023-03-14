@@ -27,12 +27,10 @@ function convertID(ID: string | number): number {
     if (dismissables.enum[ID]) {
         if (typeof ID === "string") {
             return dismissables.enum[ID];
-        } else if (typeof ID === "number") {
-            return +ID;
         }
-        throw new Error("Invalid ID");
+        return ID;
     }
-    return 0;
+    throw new Error(`Invalid ID (${ID})`);
 }
 
 function setFlag(arr: Uint8Array, flag: number, state: 1 | 0) {
