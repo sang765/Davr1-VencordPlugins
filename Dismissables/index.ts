@@ -68,7 +68,7 @@ export default definePlugin({
             replace: ".lastWinnerTime<($self.dismissables.timeouts[1]??$1)"
         }
     }, {
-        find: "o=new Set([r.z$",
+        find: ".GG_ANNOUNCEMENT,",
         replacement: {
             match: /(\i)=new Set\(\[(\i)\.(\i)\..*\]\)/,
             replace: "$&;$self.dismissables.bypassFatigue=$1;$self.dismissables.enum=$2.$3"
